@@ -27,8 +27,8 @@ def test_api(monkeypatch):
     ok = c.post("/v1/quote", json={"pair": "btc-usd", "fiat_amount": 500}, headers=h)
     assert ok.status_code == 200
     assert c.get(f"/v1/quotes/{ok.json()['quote_id']}", headers=h).status_code == 200
-    # ETH-USD has no data in the fixtures: refuse, never guess
-    refused = c.post("/v1/quote", json={"pair": "ETH-USD", "fiat_amount": 500}, headers=h)
+    # no data for this pair: refuse, never guess
+    refused = c.post("/v1/quote", json={"pair": "SOL-INR", "fiat_amount": 500}, headers=h)
     assert refused.status_code == 503
 
 
