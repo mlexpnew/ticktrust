@@ -1,0 +1,17 @@
+# API on :8000, dashboard on :8501.   docker compose up -d
+# Offline demo (no internet needed): TICKTRUST_MODE=replay docker compose up -d
+services:
+  api:
+    build: .
+    ports: ["8000:8000"]
+    environment:
+      TICKTRUST_MODE: ${TICKTRUST_MODE:-live}
+      TICKTRUST_API_KEYS: ${TICKTRUST_API_KEYS:-change-me}
+      TICKTRUST_SLACK_WEBHOOK: ${TICKTRUST_SLACK_WEBHOOK:-}
+      TICKTRUST_POLICY: /app/config/policy.example.yaml
+    restart: unless-stopped
+  dashboard:
+    build: .
+    command: ["streamlit", "run", "app.py", "--server.address=0.0.0.0", "--server.port=8501"]
+    ports: ["8501:8501"]
+    restart: unless-stopped

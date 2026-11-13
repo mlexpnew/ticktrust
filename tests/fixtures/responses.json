@@ -1,0 +1,10 @@
+{
+  "coinbase": {"ask": "67012.35", "bid": "67012.34", "volume": "8312.5", "trade_id": 712345678, "price": "67012.34", "size": "0.0021", "time": "2025-11-13T08:30:00.123456Z"},
+  "kraken": {"error": [], "result": {"XXBTZUSD": {"a": ["67015.10000", "1", "1.000"], "b": ["67015.00000", "2", "2.000"], "c": ["67015.00000", "0.00120000"], "v": ["1200.1", "3400.2"]}}},
+  "bitstamp": {"timestamp": "1763022600", "open": "66500", "high": "67400", "low": "66200", "last": "67010", "volume": "1834.2", "bid": "67009", "ask": "67011"},
+  "gemini": {"bid": "67011.10", "ask": "67013.20", "volume": {"BTC": "512.3", "USD": "34300000", "timestamp": 1763022600000}, "last": "67012.00"},
+  "coingecko": {"bitcoin": {"usd": 67008, "last_updated_at": 1763022595}},
+  "binance": {"symbol": "BTCUSDT", "price": "67020.01000000"},
+  "coindcx": [{"market": "ETHINR", "last_price": "285000.5", "timestamp": 1763022598}, {"market": "BTCINR", "last_price": "5950000.0", "timestamp": 1763022599}],
+  "wazirx": {"symbol": "btcinr", "lastPrice": "5948000", "at": 1763022598000}
+}
