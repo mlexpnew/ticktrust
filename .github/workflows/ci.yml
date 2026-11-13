@@ -1,0 +1,34 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e ".[dev]"
+      - run: ruff check . && ruff format --check .
+      - run: pytest -q
+      - name: Benchmark gate (fails on any bad quote, missed fault or false incident)
+        run: python -m ticktrust.evaluate --gate
+      - run: cat eval_results/report.md >> "$GITHUB_STEP_SUMMARY"
+
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t ticktrust .
+      - name: Smoke test in replay mode (no external network needed)
+        run: |
+          docker run -d --name tt -p 8000:8000 -e TICKTRUST_MODE=replay -e TICKTRUST_API_KEYS=k ticktrust
+          for i in $(seq 1 30); do curl -sf localhost:8000/health && break; sleep 1; done
+          sleep 3
+          curl -sf -H 'X-API-Key: k' localhost:8000/v1/prices/BTC-USD | tee /dev/stderr | grep -q '"status":"ok"'
+          curl -sf -H 'X-API-Key: k' -H 'Content-Type: application/json' \
+            -d '{"pair":"BTC-USD","fiat_amount":1000}' localhost:8000/v1/quote | grep -q quote_id

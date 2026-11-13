@@ -1,0 +1,13 @@
+# Risk policy for the reference price. Agree these numbers with your payments / risk team.
+policy:
+  max_age_s: 15              # ignore prices older than this
+  outage_after_s: 30         # no answer for this long = outage incident
+  max_dev_pct: 1.0           # drop a venue more than 1% away from the median
+  min_sources: 2             # need 2+ agreeing fresh venues for status "ok"
+  serve_degraded: true       # quote on a single venue? false = refuse instead
+  frozen_after_s: 60         # unchanged price for 60 s ...
+  frozen_market_move_pct: 0.1  # ... while the market moved 0.1% = frozen feed
+  stablecoins: [USDT-USD, USDC-USD]
+  depeg_band_pct: 0.5        # alert when a stablecoin is outside 0.995 - 1.005
+  depeg_confirm_s: 30
+  quote_ttl_s: 60            # payment quotes are honoured for 60 s
